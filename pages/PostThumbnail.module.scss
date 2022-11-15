@@ -1,0 +1,17 @@
+@use "pages/variables";
+
+.postThumbnail {
+  // Styles.
+  display: block;
+  height: auto;
+  width: auto;
+  // Specific styling.
+  margin: 0.5rem;
+  max-width: 24rem;
+}
+
+@media (max-width: variables.$sm) {
+  .postThumbnail {
+    max-width: 45%;
+  }
+}

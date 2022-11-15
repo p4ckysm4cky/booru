@@ -1,0 +1,50 @@
+@use "pages/variables";
+
+$sideWidth: 12em;
+
+.page {
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: variables.$xs) {
+    flex-direction: column-reverse;
+  }
+}
+
+.metaColumn {
+  flex-basis: $sideWidth;
+  flex-shrink: 0;
+  margin: 3rem;
+
+  .tagItemLink {
+    color: inherit;
+
+    &:hover {
+      color: variables.$color-blossom;
+    }
+  }
+}
+
+.imageColumn {
+  flex-grow: 1;
+
+  // Hack for image stretching on Safari:
+  // https://stackoverflow.com/a/57529046/5114106
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .image {
+    // Maximum width is original resolution.
+    max-width: 100%;
+    // Keep original aspect ratio.
+    height: auto;
+  }
+}
+
+.spaceColumn {
+  // Shrink first with flex-grow.
+  max-width: $sideWidth;
+  flex-grow: 1;
+}

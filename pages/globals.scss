@@ -1,0 +1,19 @@
+@use "variables";
+
+body {
+  max-width: unset;
+  padding: 0;
+}
+
+a:hover {
+  border-bottom: unset;
+}
+
+a:visited {
+  color: variables.$color-blossom;
+}
+
+img {
+  margin: 0;
+  display: block;
+}

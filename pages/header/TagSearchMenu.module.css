@@ -1,0 +1,25 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.menu {
+  position: absolute;
+  display: none;
+  margin-top: 0.5rem;
+  width: 100%;
+  background-color: rgb(32, 32, 32);
+}
+
+.menu:hover,
+.container:focus-within .menu {
+  display: block;
+}
+
+.menuItem {
+  padding: 0.2rem;
+}
+
+.menuItem:hover {
+  background-color: rgb(64, 64, 64);
+}

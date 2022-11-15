@@ -1,0 +1,19 @@
+@use "pages/variables";
+
+.form {
+  display: flex;
+  flex-grow: 1;
+  max-width: 64rem;
+  gap: 0.5rem;
+
+  @media screen and (max-width: variables.$xs) {
+    // Move search box onto separate row.
+    width: 100%;
+    order: 1;
+  }
+}
+
+.search {
+  margin: 0;
+  width: 100%;
+}

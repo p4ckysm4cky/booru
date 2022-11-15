@@ -1,0 +1,13 @@
+@use "pages/variables";
+
+.imageGallery {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+@media (max-width: variables.$sm) {
+  .imageGallery {
+    justify-content: center;
+  }
+}
