@@ -1,11 +1,11 @@
-export async function asyncFilter<T>(
+export async function asyncMap<T, R>(
   array: T[],
-  f: (element: T) => Promise<boolean>,
-): Promise<T[]> {
+  f: (element: T) => Promise<R>,
+): Promise<R[]> {
   let results = [];
   for (const element of array) {
-    if (!(await f(element))) continue;
-    results.push(element);
+    const result = await f(element);
+    results.push(result);
   }
   return results;
 }
