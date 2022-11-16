@@ -19,40 +19,45 @@ const dropStyle: CSSProperties = {
   margin: "4rem auto",
 };
 
+interface Entry {
+  key: string;
+  file: File;
+}
+
 interface ResultSuccess {
   type: "success";
-  file: File;
+  entry: Entry;
   postID: number;
 }
 
 interface ResultFailed {
   type: "failed";
-  file: File;
+  entry: Entry;
   error: string;
 }
 
 type UploadResult = ResultSuccess | ResultFailed;
 
 export default function UploadPage() {
-  const [inProgress, setInProgress] = useState<File | null>(null);
-  const [uploadQueue, setUploadQueue] = useState<File[]>([]);
+  const [inProgress, setInProgress] = useState<Entry | null>(null);
+  const [uploadQueue, setUploadQueue] = useState<Entry[]>([]);
   const [results, setResults] = useState<UploadResult[]>([]);
 
   useEffect(() => {
     if (!inProgress && uploadQueue.length > 0) {
       (async () => {
         const addResult = (result: UploadResult) =>
-          setResults([result, ...results]);
+          setResults((results) => [result, ...results]);
 
         // Remove next file.
-        const file = uploadQueue.shift()!;
+        const entry = uploadQueue.shift()!;
         setUploadQueue(uploadQueue);
-        setInProgress(file);
+        setInProgress(entry);
 
         // Upload file.
         const rawResponse = await fetch("/api/upload", {
           method: "POST",
-          body: file,
+          body: entry.file,
         });
 
         setInProgress(null);
@@ -61,15 +66,15 @@ export default function UploadPage() {
             rawResponse.status == 413
               ? "Too large"
               : `Failed (${rawResponse.status})`;
-          addResult({ type: "failed", file, error });
+          addResult({ type: "failed", entry, error });
           return;
         }
 
         const response: UploadResponse = await rawResponse.json();
-        addResult({ type: "success", file, ...response });
+        addResult({ type: "success", entry, ...response });
       })();
     }
-  }, [inProgress, uploadQueue, results]);
+  }, [inProgress, uploadQueue]);
 
   return (
     <>
@@ -81,7 +86,13 @@ export default function UploadPage() {
           <h2>Upload</h2>
           <Dropzone
             onDropAccepted={(files, _event) => {
-              setUploadQueue([...uploadQueue, ...files]);
+              setUploadQueue([
+                ...uploadQueue,
+                ...files.map((file) => ({
+                  key: crypto.randomUUID(),
+                  file,
+                })),
+              ]);
             }}
           >
             {({ getRootProps, getInputProps }) => (
@@ -107,19 +118,19 @@ export default function UploadPage() {
               <tbody style={{ wordBreak: "break-word" }}>
                 {inProgress && (
                   <tr>
-                    <td>{inProgress.name}</td>
+                    <td>{inProgress.file.name}</td>
                     <td>Uploading...</td>
                   </tr>
                 )}
-                {uploadQueue.map((file) => (
-                  <tr key={null}>
-                    <td>{file.name}</td>
+                {uploadQueue.map((entry) => (
+                  <tr key={entry.key}>
+                    <td>{entry.file.name}</td>
                     <td>Pending</td>
                   </tr>
                 ))}
                 {results.map((result) => (
-                  <tr key={null}>
-                    <td>{result.file.name}</td>
+                  <tr key={result.entry.key}>
+                    <td>{result.entry.file.name}</td>
                     <td>
                       {result.type == "success" ? (
                         <Link target={"_blank"} href={`/post/${result.postID}`}>
