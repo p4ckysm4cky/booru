@@ -1,4 +1,4 @@
-import memoizee from "memoizee";
+import mem from "mem";
 
 const DANBOORU_API = "https://danbooru.donmai.us";
 
@@ -22,7 +22,7 @@ async function getActiveTagAlias(name: string): Promise<string | null> {
   return result.consequent_name;
 }
 
-export const getCanonicalTagName = memoizee(
+export const getCanonicalTagName = mem(
   async (name: string): Promise<string | null> => {
     // Tag aliases are automatically chained so no need to recurse:
     // https://danbooru.donmai.us/wiki_pages/help:tag_aliases
