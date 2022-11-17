@@ -1,12 +1,12 @@
 import { DB } from "./database";
-import * as danbooru from "./danbooru";
+import { getCanonicalTagName } from "./danbooru";
 import { getMetadata } from "meta-png";
-import { asyncFilter } from "./utility";
+import { asyncMap } from "./utility";
 
-async function checkPlausibleTag(tag: string): Promise<boolean> {
+async function checkPlausibleTag(tag: string): Promise<string | null> {
   // Ensure non-empty.
   if (!tag.trim()) {
-    return false;
+    return null;
   }
 
   // Check if tag exists in local database.
@@ -17,16 +17,11 @@ async function checkPlausibleTag(tag: string): Promise<boolean> {
            WHERE string = ?`,
     ).get(tag)
   ) {
-    return true;
+    return tag;
   }
 
   // Check if tag exists in Danbooru.
-  if (await danbooru.getTagByName(tag)) {
-    return true;
-  }
-
-  // Tag name is not plausible.
-  return false;
+  return await getCanonicalTagName(tag);
 }
 
 interface TagExtraction {
@@ -42,8 +37,10 @@ function tryExtractNovelAITags(image: Buffer): TagExtraction | null {
       return null;
     }
 
-    const tokens = getMetadata(image, "Description")!.split(",");
-    const plausible = tokens.map((token) => token.trim().replaceAll(" ", "_"));
+    const plausible = getMetadata(image, "Description")!
+      .split(",")
+      .map((token) => token.trim().replaceAll(" ", "_"))
+      .filter((tag) => !["masterpiece", "best_quality"].includes(tag));
     return { tags: ["novelai"], plausible };
   } catch (_error) {
     return null;
@@ -53,6 +50,6 @@ function tryExtractNovelAITags(image: Buffer): TagExtraction | null {
 export async function extractTags(image: Buffer): Promise<string[]> {
   const empty = { tags: [], plausible: [] };
   const { tags, plausible } = tryExtractNovelAITags(image) || empty;
-  const valid = await asyncFilter(plausible, (tag) => checkPlausibleTag(tag));
-  return [...tags, ...valid];
+  const valid = await asyncMap(plausible, (tag) => checkPlausibleTag(tag));
+  return [...tags, ...valid.flatMap((tag) => (tag ? [tag] : []))];
 }
