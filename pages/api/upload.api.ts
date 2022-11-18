@@ -4,7 +4,7 @@ import * as Buffer from "buffer";
 import { generateThumbnailURL, insertPost } from "../../server/post";
 import { extractTags } from "../../server/tag";
 import { UploadResponse } from "./types";
-import { isAuthenticated } from "./authenticated.api";
+import { isAuthenticated } from "./auth/authenticated";
 
 export const config = {
   api: {

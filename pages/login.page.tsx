@@ -1,27 +1,24 @@
-import { GetServerSideProps, NextPage } from "next";
-import { AUTHENTICATION_MESSAGES } from "./api/types";
 import { AlertError } from "./AlertError";
 import Head from "next/head";
+import { serverProps, ServerProps } from "./_app.page";
+import { useState } from "react";
+import { LoginResponse } from "./api/types";
+import { useRouter } from "next/router";
+import { NextPage } from "next";
 
-interface PageProps {
-  error: string | null;
-}
+interface PageProps {}
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({
-  query,
-}) => {
-  const errorCode = query["error"] as
-    | keyof typeof AUTHENTICATION_MESSAGES
-    | undefined;
+export const getServerSideProps: ServerProps<PageProps> = serverProps(
+  async () => {
+    return {
+      props: {},
+    };
+  },
+);
 
-  return {
-    props: {
-      error: errorCode ? AUTHENTICATION_MESSAGES[errorCode] : null,
-    },
-  };
-};
-
-const LoginPage: NextPage<PageProps> = ({ error }) => {
+const LoginPage: NextPage<PageProps> = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
   return (
     <>
       <Head>
@@ -30,7 +27,26 @@ const LoginPage: NextPage<PageProps> = ({ error }) => {
       <div style={{ textAlign: "center" }}>
         {error && <AlertError>{error}</AlertError>}
         <h2>Login</h2>
-        <form action={"/api/login"} method={"post"}>
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target as HTMLFormElement);
+            const body = new URLSearchParams(formData as any);
+            const data = await fetch("/api/auth/login", {
+              method: "POST",
+              body,
+            });
+
+            const response: LoginResponse = await data.json();
+            if (response.error) {
+              setError(response.error);
+              return;
+            }
+
+            // Return to home page.
+            await router.push("/");
+          }}
+        >
           <div>
             <input
               style={{ width: "24rem" }}

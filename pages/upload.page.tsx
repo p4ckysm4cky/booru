@@ -3,6 +3,8 @@ import { CSSProperties, useEffect, useState } from "react";
 import Link from "next/link";
 import { UploadResponse } from "./api/types";
 import Head from "next/head";
+import { ServerProps, serverProps } from "./_app.page";
+import { NextPage } from "next";
 
 const dropStyle: CSSProperties = {
   // Center content.
@@ -38,7 +40,17 @@ interface ResultFailed {
 
 type UploadResult = ResultSuccess | ResultFailed;
 
-export default function UploadPage() {
+interface PageProps {}
+
+export const getServerSideProps: ServerProps<PageProps> = serverProps(
+  async () => {
+    return {
+      props: {},
+    };
+  },
+);
+
+const UploadPage: NextPage<PageProps> = () => {
   const [inProgress, setInProgress] = useState<Entry | null>(null);
   const [uploadQueue, setUploadQueue] = useState<Entry[]>([]);
   const [results, setResults] = useState<UploadResult[]>([]);
@@ -149,4 +161,6 @@ export default function UploadPage() {
       </div>
     </>
   );
-}
+};
+
+export default UploadPage;
