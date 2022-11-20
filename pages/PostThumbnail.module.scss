@@ -10,12 +10,6 @@
   max-width: 24rem;
 }
 
-@media (max-width: variables.$sm) {
-  .postThumbnail {
-    max-width: 45%;
-  }
-}
-
 .postThumbnail a {
   align-self: center;
 }
