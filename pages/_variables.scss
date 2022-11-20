@@ -5,3 +5,7 @@ $color-blossom: lighten($color-force, 20%);
 // Breakpoint definitions.
 $xs: 600px;
 $sm: 768px;
+
+// Gallery dimension definitions.
+$thumbnail-dimension-normal: 250px;
+$thumbnail-dimension-small: 150px;

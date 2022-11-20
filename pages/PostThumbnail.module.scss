@@ -15,13 +15,12 @@
 }
 
 .postThumbnail a img {
-  max-height: 250px;
+  max-height: variables.$thumbnail-dimension-normal;
   width: auto;
 }
 
 @media (max-width: variables.$sm) {
   .postThumbnail a img {
-    max-height: 150px;
-    width: auto;
+    max-height: variables.$thumbnail-dimension-small;
   }
 }
