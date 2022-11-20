@@ -1,13 +1,13 @@
 @use "pages/variables";
 
 .imageGallery {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minMax(200px, 1fr));
+  justify-items: center;
 }
 
 @media (max-width: variables.$sm) {
   .imageGallery {
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minMax(150px, 1fr));
   }
 }
