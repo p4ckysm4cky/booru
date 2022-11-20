@@ -13,7 +13,7 @@ async function getActiveTagByName(name: string): Promise<any | null> {
 }
 
 async function getActiveTagAlias(name: string): Promise<string | null> {
-  const url = `${DANBOORU_API}/tags_aliases.json?search[antecedent_name]=${name}`;
+  const url = `${DANBOORU_API}/tag_aliases.json?search[antecedent_name]=${name}`;
   const results = await (await fetch(url)).json();
   if (results.length !== 1) return null;
 
