@@ -1,9 +1,10 @@
-import { GetServerSideProps, NextPage } from "next";
 import { DB } from "../../../server/database";
 import moment from "moment";
 import Link from "next/link";
 import styles from "./index.page.module.scss";
 import Head from "next/head";
+import { serverProps, ServerProps } from "../../_app.page";
+import { NextPage } from "next";
 
 interface PageProps {
   postID: number;
@@ -17,35 +18,35 @@ interface Tag {
   post_count: number;
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async ({
-  query,
-}) => {
-  const postID = parseInt(query["post-id"] as string);
-  const post = DB.prepare(
-    `SELECT created_at
-       FROM posts
-       WHERE id = ?`,
-  ).get(postID);
+export const getServerSideProps: ServerProps<PageProps> = serverProps(
+  async ({ query }) => {
+    const postID = parseInt(query["post-id"] as string);
+    const post = DB.prepare(
+      `SELECT created_at
+           FROM posts
+           WHERE id = ?`,
+    ).get(postID);
 
-  const tags = DB.prepare(
-    `SELECT id, string, COUNT(post_id) AS post_count
-       FROM (SELECT id, string
-             FROM tags
-                      JOIN post_tags on tags.id = post_tags.tag_id
-             WHERE post_id = ?
-             ORDER BY string)
-                JOIN post_tags on id = post_tags.tag_id
-       GROUP BY id, string`,
-  ).all(postID);
+    const tags = DB.prepare(
+      `SELECT id, string, COUNT(post_id) AS post_count
+           FROM (SELECT id, string
+                 FROM tags
+                          JOIN post_tags on tags.id = post_tags.tag_id
+                 WHERE post_id = ?
+                 ORDER BY string)
+                    JOIN post_tags on id = post_tags.tag_id
+           GROUP BY id, string`,
+    ).all(postID);
 
-  return {
-    props: {
-      postID,
-      created_at: post.created_at,
-      tags,
-    },
-  };
-};
+    return {
+      props: {
+        postID,
+        created_at: post.created_at,
+        tags,
+      },
+    };
+  },
+);
 
 const TagItem = ({ tag }: { tag: Tag }) => {
   return (
