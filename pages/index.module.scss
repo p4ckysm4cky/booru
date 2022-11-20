@@ -1,13 +1,17 @@
 @use "pages/variables";
 
 .imageGallery {
+  // if minMax dimensions are changed, make sure to do the same
+  // in PostThumbnail.module.scss or else you will get overflow.
   display: grid;
-  grid-template-columns: repeat(auto-fill, minMax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minMax(250px, 1fr));
+  grid-template-rows: repeat(auto-fill, minMax(250px, 1fr));
   justify-items: center;
 }
 
 @media (max-width: variables.$sm) {
   .imageGallery {
     grid-template-columns: repeat(auto-fill, minMax(150px, 1fr));
+    grid-template-rows: repeat(auto-fit, 150px);
   }
 }
