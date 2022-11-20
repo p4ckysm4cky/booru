@@ -2,7 +2,7 @@
 
 .postThumbnail {
   // Styles.
-  display: block;
+  display: flex;
   height: auto;
   width: auto;
   // Specific styling.
@@ -14,4 +14,8 @@
   .postThumbnail {
     max-width: 45%;
   }
+}
+
+.postThumbnail a {
+  align-self: center;
 }
