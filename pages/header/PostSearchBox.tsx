@@ -34,6 +34,8 @@ export const PostSearchBox = () => {
           type={"text"}
           name={"search"}
           autoComplete={"off"}
+          autoCapitalize={"none"}
+          spellCheck={"false"}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
