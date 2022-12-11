@@ -6,6 +6,7 @@ const NavigationLeft = () => {
   return (
     <nav style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
       <NavigationItem href={"/"}>Home</NavigationItem>
+      <NavigationItem href={"/tags"}>Tags</NavigationItem>
       <NavigationItem href={"/upload"}>Upload</NavigationItem>
     </nav>
   );
