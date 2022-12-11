@@ -1,0 +1,16 @@
+@use "variables";
+
+.tagsTable {
+  max-width: 40em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10rem;
+}
+
+.tagLink:visited,
+.tagLink {
+  color: inherit;
+  &:hover {
+    color: variables.$color-blossom;
+  }
+}
