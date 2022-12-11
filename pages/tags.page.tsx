@@ -17,9 +17,9 @@ interface PageProps {
 
 export const getServerSideProps: ServerProps<PageProps> = serverProps(
   async () => {
-    // Add limit once pagination is fixed
+    // FIXME: Add limit once pagination is fixed
     const tags = DB.prepare(
-      `SELECT string, COUNT(post_id) AS post_count
+      `SELECT id, string, COUNT(post_id) AS post_count
         FROM tags
         JOIN post_tags ON tags.id=post_tags.tag_id
         GROUP BY string
