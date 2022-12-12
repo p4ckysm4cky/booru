@@ -8,6 +8,7 @@ import { Header } from "./header/Header";
 import { GetServerSideProps } from "next";
 import { isAuthenticated } from "./api/auth/authenticated";
 import React from "react";
+import Head from "next/head";
 
 type HigherProps<P> = { props: P; authenticated: boolean };
 export type ServerProps<P> = GetServerSideProps<HigherProps<P>>;
@@ -29,6 +30,11 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   return (
     <div key={router.asPath}>
+      {process.env.NEXT_PUBLIC_NO_INDEX && (
+        <Head>
+          <meta name={"robots"} content={"noindex"} />
+        </Head>
+      )}
       <Authenticated.Provider value={pageProps.authenticated}>
         <Header />
         <Component {...pageProps} />
