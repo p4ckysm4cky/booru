@@ -2,6 +2,8 @@ FROM node:16-alpine
 ADD ./package.json ./package-lock.json ./
 RUN npm install
 
+ARG NEXT_PUBLIC_NO_INDEX
+
 ADD ./tsconfig.json ./.eslintrc.json ./next.config.js ./
 ADD ./migrations ./migrations
 ADD ./pages ./pages
