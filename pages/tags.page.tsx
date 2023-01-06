@@ -3,8 +3,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { DB } from "../server/database";
 import { serverProps, ServerProps } from "./_app.page";
+import { PageNavigation } from "./PageNavigation";
 import styles from "./tags.page.module.scss";
 
+const DEFAULT_POST_LIMIT = 50;
 interface Tag {
   id: number;
   string: string;
@@ -13,21 +15,31 @@ interface Tag {
 
 interface PageProps {
   tags: Tag[];
+  page: number;
+  pages: number;
 }
 
 export const getServerSideProps: ServerProps<PageProps> = serverProps(
-  async () => {
-    // FIXME: Add limit once pagination is fixed
+  async ({ query }) => {
+    const page = parseInt((query["page"] || 1) as string);
+    // Page is 1-indexed but offset is 0-indexed
+    const offset = (page - 1) * DEFAULT_POST_LIMIT;
     const tags = DB.prepare(
       `SELECT id, string, COUNT(post_id) AS post_count
         FROM tags
         JOIN post_tags ON tags.id=post_tags.tag_id
         GROUP BY string
-        ORDER BY post_count DESC, string`,
-    ).all();
+        ORDER BY post_count DESC, string
+        LIMIT ? OFFSET ?`,
+    ).all(DEFAULT_POST_LIMIT, offset);
+    const totalTags = DB.prepare(`SELECT COUNT(*) total_tags FROM tags`).get()
+      .total_tags;
+    const pages = Math.ceil(totalTags / DEFAULT_POST_LIMIT);
     return {
       props: {
         tags,
+        page,
+        pages,
       },
     };
   },
@@ -46,7 +58,7 @@ export const TagTableRow = ({ tag }: { tag: Tag }) => {
   );
 };
 
-const TagsPage: NextPage<PageProps> = ({ tags }) => {
+const TagsPage: NextPage<PageProps> = ({ tags, page, pages }) => {
   return (
     <>
       <Head>
@@ -65,6 +77,7 @@ const TagsPage: NextPage<PageProps> = ({ tags }) => {
           ))}
         </tbody>
       </table>
+      <PageNavigation page={page} pages={pages} pageUrl={"tags"} />
     </>
   );
 };
