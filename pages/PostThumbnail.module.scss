@@ -13,3 +13,14 @@
 .postThumbnail a {
   align-self: center;
 }
+
+.postThumbnail a img {
+  max-height: variables.$thumbnail-dimension-normal;
+  width: auto;
+}
+
+@media (max-width: variables.$sm) {
+  .postThumbnail a img {
+    max-height: variables.$thumbnail-dimension-small;
+  }
+}

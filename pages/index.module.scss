@@ -2,12 +2,26 @@
 
 .imageGallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minMax(200px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minMax(variables.$thumbnail-dimension-normal, 1fr)
+  );
+  grid-template-rows: repeat(
+    auto-fill,
+    minMax(variables.$thumbnail-dimension-normal, 1fr)
+  );
   justify-items: center;
 }
 
 @media (max-width: variables.$sm) {
   .imageGallery {
-    grid-template-columns: repeat(auto-fill, minMax(150px, 1fr));
+    grid-template-columns: repeat(
+      auto-fill,
+      minMax(variables.$thumbnail-dimension-small, 1fr)
+    );
+    grid-template-rows: repeat(
+      auto-fill,
+      minMax(variables.$thumbnail-dimension-small, 1fr)
+    );
   }
 }
