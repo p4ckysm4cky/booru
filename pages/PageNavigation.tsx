@@ -28,21 +28,25 @@ export const PageNavigation = ({
   page,
   pages,
   limit,
+  pageUrl = "",
 }: {
-  search: string;
+  search?: string;
   page: number;
+  pageUrl?: string;
   pages: number;
-  limit: number;
+  limit?: number;
 }) => {
   const start = Math.max(1, page - PAGE_SPREAD);
   const end = Math.min(page + PAGE_SPREAD, pages);
 
   const link = (page: number) => {
-    return `/?${new URLSearchParams({
-      search,
-      limit: limit.toString(),
+    const searchParams: any = {
       page: page.toString(),
-    })}`;
+    };
+    if (limit) searchParams.limit = limit.toString();
+    if (search) searchParams.search = search;
+
+    return `/${pageUrl}?${new URLSearchParams(searchParams)}`;
   };
 
   return (
