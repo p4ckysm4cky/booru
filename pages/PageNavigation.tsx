@@ -1,6 +1,7 @@
 import { rangeInclusive } from "../server/utility";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+import { useRouter } from "next/router";
 
 const PAGE_SPREAD = 2;
 
@@ -24,24 +25,22 @@ const NavigationItem = ({ children }: PropsWithChildren) => {
 };
 
 export const PageNavigation = ({
-  search,
   page,
   pages,
-  limit,
+  params,
 }: {
-  search: string;
   page: number;
   pages: number;
-  limit: number;
+  params?: { [_name: string]: string };
 }) => {
+  const router = useRouter();
   const start = Math.max(1, page - PAGE_SPREAD);
   const end = Math.min(page + PAGE_SPREAD, pages);
 
   const link = (page: number) => {
-    return `/?${new URLSearchParams({
-      search,
-      limit: limit.toString(),
+    return `/${router.pathname}?${new URLSearchParams({
       page: page.toString(),
+      ...(params || {}),
     })}`;
   };
 
