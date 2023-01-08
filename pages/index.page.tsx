@@ -54,10 +54,12 @@ const HomePage: NextPage<PageProps> = ({ search, results, page, limit }) => {
           ))}
         </div>
         <PageNavigation
-          search={search}
           page={page}
           pages={results.pages}
-          limit={limit}
+          params={{
+            limit: limit.toString(),
+            search,
+          }}
         />
       </div>
     </>
