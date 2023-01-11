@@ -38,7 +38,7 @@ export const PageNavigation = ({
   const end = Math.min(page + PAGE_SPREAD, pages);
 
   const link = (page: number) => {
-    return `/${router.pathname}?${new URLSearchParams({
+    return `${router.pathname}?${new URLSearchParams({
       page: page.toString(),
       ...(params || {}),
     })}`;
