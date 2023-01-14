@@ -9,7 +9,13 @@ import { GetServerSideProps } from "next";
 import { isAuthenticated } from "./api/auth/authenticated";
 import React from "react";
 import Head from "next/head";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
+// Global initialization.
+dayjs.extend(relativeTime);
+
+// Page types.
 type HigherProps<P> = { props: P; authenticated: boolean };
 export type ServerProps<P> = GetServerSideProps<HigherProps<P>>;
 export const Authenticated = React.createContext<boolean | null>(null);
