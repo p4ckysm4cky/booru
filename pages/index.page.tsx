@@ -3,7 +3,8 @@ import { QueryResults, retrievePosts } from "../server/query";
 import { PageNavigation } from "./PageNavigation";
 import styles from "./index.module.scss";
 import Head from "next/head";
-import { serverProps, ServerProps } from "./_app.page";
+import { ServerProps } from "./_app.page";
+import { serverProps } from "./_server";
 import { NextPage } from "next";
 
 const DEFAULT_POST_LIMIT = 20;

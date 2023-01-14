@@ -1,7 +1,8 @@
 import { DB } from "../../../server/database";
 import styles from "./index.page.module.scss";
 import Head from "next/head";
-import { serverProps, ServerProps } from "../../_app.page";
+import { ServerProps } from "../../_app.page";
+import { serverProps } from "../../_server";
 import { NextPage } from "next";
 import { Tag, TagsList } from "./TagsList";
 import dayjs from "dayjs";
