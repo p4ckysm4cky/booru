@@ -99,7 +99,7 @@ export async function postIDFromHash(
 ): Promise<number | null> {
   const post = DB.prepare(
     `SELECT id
-       FROM posts_all
+       FROM posts
        WHERE image_md5 = ?`,
   ).get(imageHash);
 
