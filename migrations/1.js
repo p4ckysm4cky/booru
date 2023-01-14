@@ -5,6 +5,7 @@ DB.exec(`
     (
         id            INTEGER PRIMARY KEY,
         thumbnail_url TEXT      NOT NULL,
+        image_md5     TEXT      NOT NULL,
         created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at    TIMESTAMP
     );
@@ -30,6 +31,12 @@ DB.exec(`
 DB.exec(`
     CREATE VIEW tags AS 
     SELECT * FROM tags_all WHERE deleted_at IS NULL;
+`);
+
+// Ensure two active posts never have the same hash.
+DB.exec(`
+    CREATE UNIQUE INDEX idx_posts_all_image_md5
+        ON posts_all (image_md5) WHERE deleted_at IS NULL;
 `);
 
 // Ensure two active tags never have the same string.

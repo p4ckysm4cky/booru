@@ -74,10 +74,13 @@ const UploadPage: NextPage<PageProps> = () => {
 
         setInProgress(null);
         if (!rawResponse.ok) {
-          const error =
-            rawResponse.status == 413
-              ? "Too large"
-              : `Failed (${rawResponse.status})`;
+          let error = `Failed (${rawResponse.status})`;
+          if (rawResponse.status == 413) {
+            error = "Too large";
+          } else if (rawResponse.status == 409) {
+            const response: UploadResponse = await rawResponse.json();
+            error = `Duplicate of post: ${response.postID}`;
+          }
           addResult({ type: "failed", entry, error });
           return;
         }

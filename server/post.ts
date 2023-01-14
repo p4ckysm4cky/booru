@@ -1,5 +1,5 @@
 import path from "path";
-import { asyncTransaction } from "./database";
+import { asyncTransaction, DB } from "./database";
 import { promises as fs } from "fs";
 import { Database } from "better-sqlite3";
 import sharp from "sharp";
@@ -62,17 +62,32 @@ function insertTags(db: Database, postID: number, tags: string[]) {
 export async function insertPost(
   data: Buffer,
   thumbnailURL: string,
+  imageHash: string,
   tags: string[],
 ): Promise<number> {
   return await asyncTransaction(async (db) => {
     const insertPost = db.prepare(
-      `INSERT INTO posts_all (thumbnail_url)
-         VALUES (?)`,
+      `INSERT INTO posts_all (thumbnail_url, image_md5)
+         VALUES (?, ?)`,
     );
 
-    const postID = insertPost.run(thumbnailURL).lastInsertRowid as number;
+    const postID = insertPost.run(thumbnailURL, imageHash)
+      .lastInsertRowid as number;
     await fs.writeFile(postImagePath(postID), data);
     insertTags(db, postID, tags);
     return postID;
   });
+}
+
+export async function postIDFromHash(
+  imageHash: string,
+): Promise<number | null> {
+  const post = DB.prepare(
+    `SELECT id
+       FROM posts_all
+       WHERE image_md5 = ?`,
+  ).get(imageHash);
+
+  if (post === undefined) return null;
+  return post.id as number;
 }
