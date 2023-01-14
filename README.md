@@ -49,7 +49,7 @@ change and essential functionality may be missing.
    --env PORT=$PORT \
    --env SECRET=$SECRET \
    --env PASSWORD=$PASSWORD \
-   --volume "$(pwd)"/booru/data:/data \
+   --volume "$(pwd)"/booru/data:/app/data \
    --detach -t booru
    ```
 
