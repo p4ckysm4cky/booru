@@ -62,17 +62,32 @@ function insertTags(db: Database, postID: number, tags: string[]) {
 export async function insertPost(
   data: Buffer,
   thumbnailURL: string,
+  imageHash: string,
   tags: string[],
 ): Promise<number> {
   return await asyncTransaction(async (db) => {
     const insertPost = db.prepare(
-      `INSERT INTO posts_all (thumbnail_url)
-         VALUES (?)`,
+      `INSERT INTO posts_all (thumbnail_url, image_hash)
+         VALUES (?, ?)`,
     );
 
-    const postID = insertPost.run(thumbnailURL).lastInsertRowid as number;
+    const postID = insertPost.run(thumbnailURL, imageHash)
+      .lastInsertRowid as number;
     await fs.writeFile(postImagePath(postID), data);
     insertTags(db, postID, tags);
     return postID;
+  });
+}
+
+export async function getIdFromHash(imageHash: string): Promise<number | null> {
+  return await asyncTransaction(async (db) => {
+    const selectPost = db.prepare(
+      `SELECT id
+         FROM posts_all
+         WHERE image_hash = ?`,
+    );
+    const post = selectPost.get(imageHash);
+    if (post === undefined) return null;
+    return post.id as number;
   });
 }
