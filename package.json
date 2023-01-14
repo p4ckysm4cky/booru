@@ -30,6 +30,7 @@
     "sharp": "^0.31.2"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.1.2",
     "@types/better-sqlite3": "^7.6.2",
     "@types/cookies": "^0.7.7",
     "@types/jsonwebtoken": "^9.0.1",
