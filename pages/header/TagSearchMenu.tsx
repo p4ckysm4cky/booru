@@ -1,6 +1,14 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import styles from "./TagSearchMenu.module.css";
 import { TagsSuggestResponse } from "../api/types";
+
+export const TagSearchInputProps: React.InputHTMLAttributes<HTMLInputElement> =
+  {
+    type: "text",
+    autoComplete: "off",
+    autoCapitalize: "none",
+    spellCheck: "false",
+  };
 
 export const TagSearchContainer = ({ children }: PropsWithChildren<{}>) => {
   return <div className={styles.container}>{children}</div>;

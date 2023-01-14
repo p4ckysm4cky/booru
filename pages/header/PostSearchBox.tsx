@@ -1,6 +1,10 @@
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { TagSearchContainer, TagSearchMenu } from "./TagSearchMenu";
+import {
+  TagSearchContainer,
+  TagSearchInputProps,
+  TagSearchMenu,
+} from "./TagSearchMenu";
 import { lastIndexOfRegex } from "../../server/utility";
 import styles from "./PostSearchBox.module.scss";
 
@@ -31,13 +35,10 @@ export const PostSearchBox = () => {
         <input
           ref={inputRef}
           className={styles.search}
-          type={"text"}
           name={"search"}
-          autoComplete={"off"}
-          autoCapitalize={"none"}
-          spellCheck={"false"}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          {...TagSearchInputProps}
         />
         <TagSearchMenu
           prefix={prefix}

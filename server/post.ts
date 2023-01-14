@@ -35,7 +35,15 @@ export async function generateThumbnailURL(data: Buffer): Promise<string> {
   return `data:image/jpeg;base64,${encoded}`;
 }
 
-function insertTags(db: Database, postID: number, tags: string[]) {
+function clearTags(db: Database, postID: number) {
+  db.prepare(
+    `DELETE
+       FROM post_tags
+       WHERE post_id = ?`,
+  ).run(postID);
+}
+
+function insertPostTagsOrCreate(db: Database, postID: number, tags: string[]) {
   const selectTagID = db.prepare(
     `SELECT id
        FROM tags
@@ -74,9 +82,16 @@ export async function insertPost(
     const postID = insertPost.run(thumbnailURL, imageHash)
       .lastInsertRowid as number;
     await fs.writeFile(postImagePath(postID), data);
-    insertTags(db, postID, tags);
+    insertPostTagsOrCreate(db, postID, tags);
     return postID;
   });
+}
+
+export function setPostTags(postID: number, tags: string[]) {
+  DB.transaction(() => {
+    clearTags(DB, postID);
+    insertPostTagsOrCreate(DB, postID, tags);
+  })();
 }
 
 export async function postIDFromHash(
