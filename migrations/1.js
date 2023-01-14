@@ -5,6 +5,7 @@ DB.exec(`
     (
         id            INTEGER PRIMARY KEY,
         thumbnail_url TEXT      NOT NULL,
+        image_hash    TEXT      NOT NULL,
         created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         deleted_at    TIMESTAMP
     );
