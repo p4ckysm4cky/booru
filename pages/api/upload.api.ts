@@ -6,7 +6,7 @@ import {
   getIdFromHash,
 } from "../../server/post";
 import { extractTags } from "../../server/tag";
-import { UploadDuplicateResponse, UploadResponse } from "./types";
+import { UploadResponse } from "./types";
 import { isAuthenticated } from "./auth/authenticated";
 import md5 from "md5";
 
@@ -22,7 +22,7 @@ const BODY_OPTIONS = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<UploadResponse | UploadDuplicateResponse>,
+  res: NextApiResponse<UploadResponse>,
 ) {
   if (req.method !== "POST") return res.status(405).end();
   if (!isAuthenticated(req, res)) return res.status(401).end();
@@ -34,7 +34,7 @@ export default async function handler(
     // Check if image is already in database.
     const id = await getIdFromHash(imageHash);
     if (id !== null) {
-      return res.status(409).json({ message: "Duplicate image", postID: id });
+      return res.status(409).json({ postID: id });
     }
 
     const thumbnailURL = await generateThumbnailURL(data);
