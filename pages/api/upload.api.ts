@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   generateThumbnailURL,
   insertPost,
-  getIdFromHash,
+  postIDFromHash,
 } from "../../server/post";
 import { extractTags } from "../../server/tag";
 import { UploadResponse } from "./types";
@@ -31,8 +31,9 @@ export default async function handler(
     // Generate data.
     const data = (await buffer(req, BODY_OPTIONS)) as Buffer;
     const imageHash = md5(data);
+
     // Check if image is already in database.
-    const id = await getIdFromHash(imageHash);
+    const id = await postIDFromHash(imageHash);
     if (id !== null) {
       return res.status(409).json({ postID: id });
     }

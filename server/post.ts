@@ -1,5 +1,5 @@
 import path from "path";
-import { asyncTransaction } from "./database";
+import { asyncTransaction, DB } from "./database";
 import { promises as fs } from "fs";
 import { Database } from "better-sqlite3";
 import sharp from "sharp";
@@ -79,15 +79,15 @@ export async function insertPost(
   });
 }
 
-export async function getIdFromHash(imageHash: string): Promise<number | null> {
-  return await asyncTransaction(async (db) => {
-    const selectPost = db.prepare(
-      `SELECT id
-         FROM posts_all
-         WHERE image_md5 = ?`,
-    );
-    const post = selectPost.get(imageHash);
-    if (post === undefined) return null;
-    return post.id as number;
-  });
+export async function postIDFromHash(
+  imageHash: string,
+): Promise<number | null> {
+  const post = DB.prepare(
+    `SELECT id
+       FROM posts_all
+       WHERE image_md5 = ?`,
+  ).get(imageHash);
+
+  if (post === undefined) return null;
+  return post.id as number;
 }
