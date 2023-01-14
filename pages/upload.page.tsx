@@ -79,7 +79,7 @@ const UploadPage: NextPage<PageProps> = () => {
             error = "Too large";
           } else if (rawResponse.status == 409) {
             const response: UploadResponse = await rawResponse.json();
-            error = `Duplicate of post ${response.postID}`;
+            error = `Duplicate of post: ${response.postID}`;
           }
           addResult({ type: "failed", entry, error });
           return;

@@ -67,7 +67,7 @@ export async function insertPost(
 ): Promise<number> {
   return await asyncTransaction(async (db) => {
     const insertPost = db.prepare(
-      `INSERT INTO posts_all (thumbnail_url, image_hash)
+      `INSERT INTO posts_all (thumbnail_url, image_md5)
          VALUES (?, ?)`,
     );
 
@@ -84,7 +84,7 @@ export async function getIdFromHash(imageHash: string): Promise<number | null> {
     const selectPost = db.prepare(
       `SELECT id
          FROM posts_all
-         WHERE image_hash = ?`,
+         WHERE image_md5 = ?`,
     );
     const post = selectPost.get(imageHash);
     if (post === undefined) return null;
