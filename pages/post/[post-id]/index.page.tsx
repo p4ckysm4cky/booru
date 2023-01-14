@@ -1,21 +1,15 @@
 import { DB } from "../../../server/database";
 import moment from "moment";
-import Link from "next/link";
 import styles from "./index.page.module.scss";
 import Head from "next/head";
 import { serverProps, ServerProps } from "../../_app.page";
 import { NextPage } from "next";
+import { Tag, TagsList } from "./TagsList";
 
 interface PageProps {
   postID: number;
   created_at: string;
   tags: Tag[];
-}
-
-interface Tag {
-  id: number;
-  string: string;
-  post_count: number;
 }
 
 export const getServerSideProps: ServerProps<PageProps> = serverProps(
@@ -48,16 +42,6 @@ export const getServerSideProps: ServerProps<PageProps> = serverProps(
   },
 );
 
-const TagItem = ({ tag }: { tag: Tag }) => {
-  return (
-    <dt>
-      <Link className={styles.tagItemLink} href={`/?search=${tag.string}`}>
-        {tag.string} - {tag.post_count}
-      </Link>
-    </dt>
-  );
-};
-
 const PostPage: NextPage<PageProps> = ({ postID, created_at, tags }) => {
   const tagSummary = tags.map((tag) => tag.string).join(" ");
   return (
@@ -67,14 +51,7 @@ const PostPage: NextPage<PageProps> = ({ postID, created_at, tags }) => {
       </Head>
       <div className={styles.page}>
         <div className={styles.metaColumn}>
-          <div>
-            <h3 style={{ marginTop: 0 }}>Tags</h3>
-            <dl>
-              {tags.map((tag) => (
-                <TagItem key={tag.id} tag={tag} />
-              ))}
-            </dl>
-          </div>
+          <TagsList postID={postID} tags={tags} />
           <div>
             <h3>Information</h3>
             <dl>

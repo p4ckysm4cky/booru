@@ -3,9 +3,14 @@ import { getCanonicalTagName } from "./danbooru";
 import { getMetadata } from "meta-png";
 import { asyncMap } from "./utility";
 
+export function validateTag(tag: string): boolean {
+  // Check if tag contains whitespace or is empty.
+  return !/\s/g.test(tag) && tag.length !== 0;
+}
+
 async function checkPlausibleTag(tag: string): Promise<string | null> {
-  // Ensure non-empty.
-  if (!tag.trim()) {
+  // Ensure valid.
+  if (!validateTag(tag)) {
     return null;
   }
 
