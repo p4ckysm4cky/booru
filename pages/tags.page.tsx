@@ -2,7 +2,8 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { DB } from "../server/database";
-import { serverProps, ServerProps } from "./_app.page";
+import { ServerProps } from "./_app.page";
+import { serverProps } from "./_server";
 import { PageNavigation } from "./PageNavigation";
 import styles from "./tags.page.module.scss";
 

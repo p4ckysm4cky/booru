@@ -1,6 +1,7 @@
 import { AlertError } from "./AlertError";
 import Head from "next/head";
-import { serverProps, ServerProps } from "./_app.page";
+import { ServerProps } from "./_app.page";
+import { serverProps } from "./_server";
 import { useState } from "react";
 import { LoginResponse } from "./api/types";
 import { useRouter } from "next/router";

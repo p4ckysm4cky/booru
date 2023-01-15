@@ -1,10 +1,11 @@
 import { DB } from "../../../server/database";
-import moment from "moment";
 import styles from "./index.page.module.scss";
 import Head from "next/head";
-import { serverProps, ServerProps } from "../../_app.page";
+import { ServerProps } from "../../_app.page";
+import { serverProps } from "../../_server";
 import { NextPage } from "next";
 import { Tag, TagsList } from "./TagsList";
+import dayjs from "dayjs";
 
 interface PageProps {
   postID: number;
@@ -56,7 +57,7 @@ const PostPage: NextPage<PageProps> = ({ postID, created_at, tags }) => {
             <h3>Information</h3>
             <dl>
               <dt>ID: {postID}</dt>
-              <dt>Date: {moment.utc(created_at).fromNow()}</dt>
+              <dt>Date: {dayjs().to(created_at)}</dt>
             </dl>
           </div>
         </div>

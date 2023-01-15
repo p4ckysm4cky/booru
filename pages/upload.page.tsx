@@ -3,7 +3,8 @@ import { CSSProperties, useEffect, useState } from "react";
 import Link from "next/link";
 import { UploadResponse } from "./api/types";
 import Head from "next/head";
-import { ServerProps, serverProps } from "./_app.page";
+import { ServerProps } from "./_app.page";
+import { serverProps } from "./_server";
 import { NextPage } from "next";
 
 const dropStyle: CSSProperties = {
@@ -104,7 +105,8 @@ const UploadPage: NextPage<PageProps> = () => {
               setUploadQueue([
                 ...uploadQueue,
                 ...files.map((file) => ({
-                  key: crypto.randomUUID(),
+                  // As files do not have a unique ID, generate one.
+                  key: `${file.name}-${Math.random()}`,
                   file,
                 })),
               ]);
