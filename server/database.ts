@@ -4,7 +4,12 @@ import path from "path";
 
 export function newDatabaseConnection(): Database.Database {
   // Foreign key constraints are enabled by default in better-sqlite3.
-  const db = new Database(path.join("data", "data.db"));
+  const db = new Database(
+    path.join(
+      process.env.DATA_ROOT ? process.env.DATA_ROOT : "data",
+      "data.db",
+    ),
+  );
   // Enable write ahead logging (WAL) for performance.
   db.pragma("journal_mode = WAL");
   return db;
