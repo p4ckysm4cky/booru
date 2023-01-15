@@ -4,10 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:test": "cross-env DATA_ROOT=data_test next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "node migrations/migrate.js"
+    "migrate": "node migrations/migrate.js",
+    "migrate:test": "cross-env DATA_ROOT=data_test node migrations/migrate.js",
+    "cypress:open": "cypress open",
+    "test": "cypress run"
   },
   "dependencies": {
     "better-sqlite3": "^7.6.2",
@@ -40,6 +44,8 @@
     "@types/react-dom": "18.0.8",
     "@types/send": "^0.17.1",
     "@types/sharp": "^0.31.0",
+    "cross-env": "^7.0.3",
+    "cypress": "^12.3.0",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
     "eslint-config-prettier": "^8.5.0",

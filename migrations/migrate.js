@@ -2,7 +2,7 @@ const Database = require("better-sqlite3");
 const path = require("path");
 const fs = require("fs");
 
-const DB = new Database(path.join("data", "data.db"));
+const DB = new Database(path.join(process.env.DATA_ROOT ?? "data", "data.db"));
 module.exports = { DB };
 
 function getAllMigrations() {
