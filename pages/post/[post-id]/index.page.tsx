@@ -1,10 +1,11 @@
 import { DB } from "../../../server/database";
 import styles from "./index.page.module.scss";
 import Head from "next/head";
-import { ServerProps } from "../../_app.page";
+import { Authenticated, ServerProps } from "../../_app.page";
 import { serverProps } from "../../_server";
 import { NextPage } from "next";
 import { Tag, TagsList } from "./TagsList";
+import { ArchiveAction } from "./ArchiveAction";
 import dayjs from "dayjs";
 
 interface PageProps {
@@ -60,6 +61,16 @@ const PostPage: NextPage<PageProps> = ({ postID, created_at, tags }) => {
               <dt>Date: {dayjs().to(created_at)}</dt>
             </dl>
           </div>
+          <Authenticated.Consumer>
+            {(authenticated) =>
+              authenticated && (
+                <div>
+                  <h3>Archival</h3>
+                  <ArchiveAction postID={postID} />
+                </div>
+              )
+            }
+          </Authenticated.Consumer>
         </div>
         <div className={styles.imageColumn}>
           <img
