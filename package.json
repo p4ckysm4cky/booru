@@ -10,7 +10,8 @@
     "lint": "next lint",
     "migrate": "node migrations/migrate.js",
     "migrate:test": "cross-env DATA_ROOT=data_test node migrations/migrate.js",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "test": "cypress run"
   },
   "dependencies": {
     "better-sqlite3": "^7.6.2",
