@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isAuthenticated } from "../../auth/authenticated";
-import { validateTag } from "../../../../server/tag";
-import { setPostTags } from "../../../../server/post";
-import { DB } from "../../../../server/database";
+import { isAuthenticated } from "../../../auth/authenticated";
+import { validateTag } from "../../../../../server/tag";
+import { setPostTags } from "../../../../../server/post";
+import { DB } from "../../../../../server/database";
 
 export default async function handler(
   req: NextApiRequest,

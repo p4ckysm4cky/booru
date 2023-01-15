@@ -89,7 +89,15 @@ const AddTag = ({ addTag }: { addTag: (tag: string) => void }) => {
   );
 };
 
-export const TagsList = ({ postID, tags }: { postID: number; tags: Tag[] }) => {
+export const TagsList = ({
+  postID,
+  tags,
+  canSuggestTags,
+}: {
+  postID: number;
+  tags: Tag[];
+  canSuggestTags: boolean;
+}) => {
   // Invariant: Edit tags are never removed.
   const router = useRouter();
   const [editTags, setEditTags] = useState<EditTag[] | null>(null);
@@ -129,7 +137,7 @@ export const TagsList = ({ postID, tags }: { postID: number; tags: Tag[] }) => {
           }
         </Authenticated.Consumer>
       </div>
-      <dl style={{ marginTop: 0 }}>
+      <dl style={{ marginTop: 0, overflowWrap: "anywhere" }}>
         {editTags === null
           ? tags.map((tag) => <TagItem key={tag.id} tag={tag} />)
           : editTags.map((tag, index) => (
@@ -156,6 +164,32 @@ export const TagsList = ({ postID, tags }: { postID: number; tags: Tag[] }) => {
             >
               Save
             </button>
+            {canSuggestTags && (
+              <button
+                style={{ marginLeft: "1rem" }}
+                onClick={async () => {
+                  const results: { tag: string }[] = await (
+                    await fetch(`/api/post/${postID}/tags/suggest`)
+                  ).json();
+
+                  const tagExists = (string: string) => {
+                    return editTags.some((edit) => edit.string === string);
+                  };
+
+                  setEditTags([
+                    ...editTags,
+                    ...results
+                      .filter(({ tag }) => !tagExists(tag))
+                      .map((result) => ({
+                        string: result.tag,
+                        keep: false,
+                      })),
+                  ]);
+                }}
+              >
+                Suggest
+              </button>
+            )}
           </div>
           <AddTag
             addTag={(string) => {
