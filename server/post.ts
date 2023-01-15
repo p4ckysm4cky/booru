@@ -5,11 +5,7 @@ import { Database } from "better-sqlite3";
 import sharp from "sharp";
 
 export function postImagePath(postID: number): string {
-  return path.join(
-    process.env.DATA_ROOT ? process.env.DATA_ROOT : "data",
-    "posts",
-    postID.toString(),
-  );
+  return path.join(process.env.DATA_ROOT ?? "data", "posts", postID.toString());
 }
 
 export async function generateThumbnailURL(data: Buffer): Promise<string> {
