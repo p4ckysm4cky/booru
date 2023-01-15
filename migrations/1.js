@@ -46,7 +46,7 @@ DB.exec(`
 `);
 
 DB.exec(`
-    CREATE TABLE post_tags
+    CREATE TABLE post_tags_all
     (
         post_id INTEGER NOT NULL REFERENCES posts_all (id),
         tag_id  INTEGER NOT NULL REFERENCES tags_all (id)
@@ -54,6 +54,12 @@ DB.exec(`
 `);
 
 DB.exec(`
-    CREATE UNIQUE INDEX idx_post_tags_post_id_tag_id
-        ON post_tags (post_id, tag_id);
+    CREATE VIEW post_tags AS
+    SELECT post_id, tag_id FROM post_tags_all
+    JOIN posts on posts.id = post_id;
+`);
+
+DB.exec(`
+    CREATE UNIQUE INDEX idx_post_tags_all_post_id_tag_id
+        ON post_tags_all (post_id, tag_id);
 `);

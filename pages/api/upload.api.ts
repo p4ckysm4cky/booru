@@ -45,6 +45,7 @@ export default async function handler(
     const postID = await insertPost(data, thumbnailURL, imageHash, tags);
     res.status(200).json({ postID });
   } catch (error: any) {
+    console.error(`upload failure: ${error}`);
     res.status(error.statusCode || 500).end();
   }
 }

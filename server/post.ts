@@ -38,7 +38,7 @@ export async function generateThumbnailURL(data: Buffer): Promise<string> {
 function clearTags(db: Database, postID: number) {
   db.prepare(
     `DELETE
-       FROM post_tags
+       FROM post_tags_all
        WHERE post_id = ?`,
   ).run(postID);
 }
@@ -55,7 +55,7 @@ function insertPostTagsOrCreate(db: Database, postID: number, tags: string[]) {
        VALUES (?)`,
   );
   const insertPostTag = db.prepare(
-    `INSERT OR IGNORE INTO post_tags (post_id, tag_id)
+    `INSERT OR IGNORE INTO post_tags_all (post_id, tag_id)
        VALUES (?, ?)`,
   );
 

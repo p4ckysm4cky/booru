@@ -15,6 +15,7 @@ export default async function handler(
     return res.status(405).end();
   }
 
+  // FIXME: post is still accessible when archived
   try {
     const postID = parseInt(req.query["post-id"] as string);
     await new Promise((resolve, reject) => {

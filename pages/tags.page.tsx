@@ -28,7 +28,7 @@ export const getServerSideProps: ServerProps<PageProps> = serverProps(
     const offset = (page - 1) * DEFAULT_TAG_LIMIT;
 
     const tags = DB.prepare(
-      `SELECT id, string, COUNT(post_id) AS post_count
+      `SELECT tags.id, string, COUNT(post_id) AS post_count
            FROM tags
                     JOIN post_tags ON tags.id = post_tags.tag_id
            GROUP BY string
