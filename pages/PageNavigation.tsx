@@ -47,7 +47,7 @@ export const PageNavigation = ({
   return (
     <nav
       style={{
-        margin: "2rem 0",
+        margin: "4rem 0",
         display: "flex",
         justifyContent: "center",
         textAlign: "center",
