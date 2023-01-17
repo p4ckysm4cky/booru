@@ -1,18 +1,21 @@
 export {};
-describe("Home", () => {
+describe("Home page", () => {
   beforeEach(() => {
     cy.visit("/");
   });
 
   it("can visit tags page", () => {
     cy.get('a[href*="tags"]').click();
+    cy.url().should("include", "/tags");
   });
 
   it("can visit upload page", () => {
     cy.get('a[href*="upload"]').click();
+    cy.url().should("include", "/upload");
   });
 
   it("can visit upload login", () => {
     cy.get('a[href*="login"]').click();
+    cy.url().should("include", "/login");
   });
 });
