@@ -2,7 +2,7 @@ name: Lint
 
 on:
   # Trigger the workflow on push or pull request,
-  # but only for the main branch
+  # but only for the main branch.
   push:
     branches:
       - main
@@ -34,5 +34,5 @@ jobs:
           eslint: true
           prettier: true
 
-      - name: Build
-        run: npm run build
+      - name: Build and test
+        run: npm test

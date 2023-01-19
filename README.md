@@ -29,19 +29,13 @@ change and essential functionality may be missing.
    git clone https://github.com/p4ckysm4cky/booru.git
    ```
 
-3. Create an empty `public` directory:
-
-   ```
-   mkdir ./booru/public
-   ```
-
-4. Build the container:
+3. Build the container:
 
    ```
    docker build -t booru ./booru
    ```
 
-5. Run the container:
+4. Run the container:
 
    ```
    docker run \
@@ -56,7 +50,7 @@ change and essential functionality may be missing.
    replacing `$PORT` with the port to expose the server on, `$SECRET` with
    a random string, and `$PASSWORD` with a password.
 
-6. Access the site on `http://localhost:$PORT`.
+5. Access the site on `http://localhost:$PORT`.
 
 ## Development
 
