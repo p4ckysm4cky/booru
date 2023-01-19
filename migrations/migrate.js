@@ -2,7 +2,12 @@ const Database = require("better-sqlite3");
 const path = require("path");
 const fs = require("fs");
 
-const DB = new Database(path.join(process.env.DATA_ROOT ?? "data", "data.db"));
+// Non-destructively initialize data root.
+const DATA_ROOT = process.env.DATA_ROOT ?? "data";
+fs.mkdirSync(path.join(DATA_ROOT, "posts"), { recursive: true });
+
+// Open database.
+const DB = new Database(path.join(DATA_ROOT, "data.db"));
 module.exports = { DB };
 
 function getAllMigrations() {
