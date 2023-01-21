@@ -4,14 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:test": "cross-env DATA_ROOT=data_test next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "node migrations/migrate.js",
-    "migrate:test": "cross-env DATA_ROOT=data_test node migrations/migrate.js",
     "cypress:open": "cypress open",
-    "test": "cypress run"
+    "cypress:test": "cypress run",
+    "migrate": "node migrations/migrate.js",
+    "test": "node scripts/test.js"
   },
   "dependencies": {
     "better-sqlite3": "^7.6.2",
@@ -50,6 +49,7 @@
     "eslint-config-next": "13.0.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
+    "start-server-and-test": "^1.15.2",
     "typescript": "4.8.4"
   }
 }
