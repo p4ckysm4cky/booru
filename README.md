@@ -17,6 +17,7 @@ change and essential functionality may be missing.
 - Tag search
 - Clean and responsive layout (mobile friendly)
 - Automatically extracts tags from NovelAI generated images (using a Danbooru filter)
+- Integrated image tag suggestions (optional)
 
 ## Installation
 
@@ -93,6 +94,39 @@ To access authenticated routes, set these environment variables
 - `PASSWORD`
 
 ## Optional configuration
+
+### Image tag suggestions
+
+To integrate with a service that suggests tags for an image
+(such as https://github.com/nanoskript/deepdanbooru-docker),
+set the environment variable `SUGGEST_TAGS_ENDPOINT` to the service endpoint URL:
+
+```
+docker run \
+--env SUGGEST_TAGS_ENDPOINT=https://... \
+...
+```
+
+This will add the `Suggest` button to the image tag editing interface:
+
+![](docs/suggest.png)
+
+When clicked, `booru` will send a multipart `POST` request to the
+specified URL with the image under the `"image"` key. The service must return
+a JSON list of suggested tags for the image:
+
+```json
+[
+  {
+    "tag": "..."
+  },
+  ...
+]
+```
+
+The suggested tags will appear in the tag editing interface:
+
+![](docs/suggestions.png)
 
 ### Prevent indexing
 
