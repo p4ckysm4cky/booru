@@ -1,5 +1,5 @@
 # Build site.
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /build
 
 ADD ./package.json ./package-lock.json ./
@@ -15,7 +15,7 @@ ADD ./server ./server
 RUN npm run build
 
 # Serve site.
-FROM node:16-alpine
+FROM node:18-alpine
 WORKDIR /app
 
 COPY --from=builder /build/.next/standalone ./
