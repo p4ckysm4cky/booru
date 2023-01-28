@@ -2,6 +2,8 @@
 
 A lightweight tag based image board.
 
+[Demo](https://booru.p4ckysm4cky.moe/)
+
 ![](docs/example.png)
 
 ## Notice
@@ -36,7 +38,13 @@ change and essential functionality may be missing.
    docker build -t booru ./booru
    ```
 
-4. Run the container:
+4. Update owner of data directory:
+
+   ```
+   sudo chown 1001:1001 ./booru/data
+   ```
+
+5. Run the container:
 
    ```
    docker run \
@@ -51,7 +59,7 @@ change and essential functionality may be missing.
    replacing `$PORT` with the port to expose the server on, `$SECRET` with
    a random string, and `$PASSWORD` with a password.
 
-5. Access the site on `http://localhost:$PORT`.
+6. Access the site on `http://localhost:$PORT`.
 
 ## Development
 
