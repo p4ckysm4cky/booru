@@ -1,13 +1,20 @@
 import { PostSearchBox } from "./PostSearchBox";
 import { NavigationItem } from "./NavigationItem";
 import { LoginButton } from "./LoginButton";
+import { Authenticated } from "../_app.page";
 
 const NavigationLeft = () => {
   return (
     <nav style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
       <NavigationItem href={"/"}>Home</NavigationItem>
       <NavigationItem href={"/tags"}>Tags</NavigationItem>
-      <NavigationItem href={"/upload"}>Upload</NavigationItem>
+      <Authenticated.Consumer>
+        {(authenticated) =>
+          authenticated && (
+            <NavigationItem href={"/upload"}>Upload</NavigationItem>
+          )
+        }
+      </Authenticated.Consumer>
     </nav>
   );
 };
