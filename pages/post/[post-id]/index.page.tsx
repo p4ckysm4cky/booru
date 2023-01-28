@@ -8,6 +8,7 @@ import { Tag, TagsList } from "./TagsList";
 import { ArchiveAction } from "./ArchiveAction";
 import { SUGGEST_TAGS_ENDPOINT } from "../../api/post/[post-id]/tags/suggest.api";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 interface PageProps {
   postID: number;
@@ -54,6 +55,7 @@ const PostPage: NextPage<PageProps> = ({
   canSuggestTags,
 }) => {
   const tagSummary = tags.map((tag) => tag.string).join(" ");
+  dayjs.extend(utc);
   return (
     <>
       <Head>
@@ -70,7 +72,7 @@ const PostPage: NextPage<PageProps> = ({
             <h3>Information</h3>
             <dl>
               <dt>ID: {postID}</dt>
-              <dt>Date: {dayjs().to(created_at)}</dt>
+              <dt>Date: {dayjs().to(dayjs.utc(created_at))}</dt>
             </dl>
           </div>
           <Authenticated.Consumer>
