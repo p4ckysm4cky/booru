@@ -10,9 +10,11 @@ import React from "react";
 import Head from "next/head";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
 
 // Global initialization.
 dayjs.extend(relativeTime);
+dayjs.extend(utc);
 
 // Page types.
 type HigherProps<P> = { props: P; authenticated: boolean };
