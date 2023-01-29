@@ -70,7 +70,7 @@ const PostPage: NextPage<PageProps> = ({
             <h3>Information</h3>
             <dl>
               <dt>ID: {postID}</dt>
-              <dt>Date: {dayjs().to(created_at)}</dt>
+              <dt>Date: {dayjs().to(dayjs.utc(created_at))}</dt>
             </dl>
           </div>
           <Authenticated.Consumer>
