@@ -9,7 +9,12 @@ describe("Home page", () => {
     cy.url().should("include", "/tags");
   });
 
-  it("can visit upload page", () => {
+  it("does not display upload page when not authenticated", () => {
+    cy.get('a[href*="upload"]').should("not.exist");
+  });
+
+  it("can visit upload page when authenticated", () => {
+    cy.login(Cypress.env("PASSWORD"));
     cy.get('a[href*="upload"]').click();
     cy.url().should("include", "/upload");
   });
