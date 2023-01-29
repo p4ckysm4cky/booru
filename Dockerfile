@@ -23,8 +23,5 @@ COPY --from=builder /build/.next/static ./.next/static
 COPY --from=builder /build/public ./public
 COPY --from=builder /build/migrations ./migrations
 
-RUN addgroup --system --gid 1001 nextjs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
 
 ENTRYPOINT ["/bin/sh", "-c" , "node ./migrations/migrate.js && node server.js -p $PORT"]

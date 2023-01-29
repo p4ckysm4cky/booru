@@ -38,13 +38,7 @@ change and essential functionality may be missing.
    docker build -t booru ./booru
    ```
 
-4. Update owner of data directory:
-
-   ```
-   sudo chown 1001:1001 ./booru/data
-   ```
-
-5. Run the container:
+4. Run the container:
 
    ```
    docker run \
@@ -52,14 +46,15 @@ change and essential functionality may be missing.
    --env PORT=$PORT \
    --env SECRET=$SECRET \
    --env PASSWORD=$PASSWORD \
-   --volume "$(pwd)"/booru/data:/app/data \
+   --volume booruData:/app/data \
    --detach -t booru
    ```
 
    replacing `$PORT` with the port to expose the server on, `$SECRET` with
    a random string, and `$PASSWORD` with a password.
+   The command also creates a volume named `booruData` if it doesn't exist.
 
-6. Access the site on `http://localhost:$PORT`.
+5. Access the site on `http://localhost:$PORT`.
 
 ## Development
 
