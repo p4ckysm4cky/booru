@@ -42,7 +42,7 @@ change and essential functionality may be missing.
 
    ```
    docker run \
-   --publish $PORT:$PORT
+   --publish $PORT:$PORT \
    --env PORT=$PORT \
    --env SECRET=$SECRET \
    --env PASSWORD=$PASSWORD \
