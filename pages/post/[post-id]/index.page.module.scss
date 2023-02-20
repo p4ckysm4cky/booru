@@ -9,6 +9,11 @@ $sideWidth: 12em;
 
   @media (max-width: variables.$xs) {
     flex-direction: column-reverse;
+    .imageColumn {
+      .image {
+        max-height: 100%;
+      }
+    }
   }
 }
 
@@ -36,10 +41,11 @@ $sideWidth: 12em;
   align-items: center;
 
   .image {
+    // Keep original aspect ratio.
     // Maximum width is original resolution.
     max-width: 100%;
-    // Keep original aspect ratio.
-    height: auto;
+    object-fit: contain;
+    max-height: 100vh;
   }
 }
 
