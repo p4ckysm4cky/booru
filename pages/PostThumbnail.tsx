@@ -1,5 +1,25 @@
 import Link from "next/link";
 import styles from "./PostThumbnail.module.scss";
+import { PostGetResponse } from "./api/types";
+import { useState } from "react";
+import dayjs from "dayjs";
+
+const PostSummary = ({ created_at, tags }: PostGetResponse) => {
+  return (
+    <div className={styles.postSummaryContainer}>
+      <div className={styles.postSummary}>
+        <dl style={{ margin: 0 }}>
+          <dt>{dayjs().to(dayjs.utc(created_at))}</dt>
+          {tags.map((tag) => (
+            <dt key={tag.string} style={{ fontSize: "smaller" }}>
+              <Link href={`/?search=${tag.string}`}>{tag.string}</Link>
+            </dt>
+          ))}
+        </dl>
+      </div>
+    </div>
+  );
+};
 
 export const PostThumbnail = ({
   postID,
@@ -8,11 +28,23 @@ export const PostThumbnail = ({
   postID: number;
   thumbnailURL: string;
 }) => {
+  const [summary, setSummary] = useState<PostGetResponse | null>(null);
   return (
-    <div className={styles.postThumbnail}>
+    <div
+      className={styles.postThumbnail}
+      onMouseEnter={async () => {
+        if (!summary) {
+          const data: PostGetResponse = await (
+            await fetch(`/api/post/${postID}`)
+          ).json();
+          setSummary(data);
+        }
+      }}
+    >
       <Link href={`/post/${postID}`} style={{ fontSize: 0 }}>
         <img src={thumbnailURL} alt={`${postID}`} />
       </Link>
+      {summary && <PostSummary {...summary} />}
     </div>
   );
 };
