@@ -28,6 +28,16 @@
 .postSummary {
   background-color: rgb(32, 32, 32);
   padding: 1rem;
+  dl {
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  dl dt {
+    display: inline;
+    padding: 0px 5px 0px 5px;
+  }
 }
 
 .postThumbnail:hover .postSummaryContainer {
