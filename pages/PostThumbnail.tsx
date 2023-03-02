@@ -8,14 +8,10 @@ const PostSummary = ({ created_at, tags }: PostGetResponse) => {
   return (
     <div className={styles.postSummaryContainer}>
       <div className={styles.postSummary}>
-        <div>
-          <span style={{ padding: "5px 0px 0px 5px" }}>
-            {dayjs().to(dayjs.utc(created_at))}
-          </span>
-        </div>
+        <div>{dayjs().to(dayjs.utc(created_at))}</div>
         <dl style={{ margin: 0, padding: 0 }}>
           {tags.map((tag) => (
-            <dt key={tag.string} style={{ fontSize: "smaller" }}>
+            <dt key={tag.string}>
               <Link href={`/?search=${tag.string}`}>{tag.string}</Link>
             </dt>
           ))}

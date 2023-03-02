@@ -4,19 +4,19 @@ import { DB } from "../../../../server/database";
 import { PostGetResponse } from "../../types";
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<PostGetResponse | {}>,
+  req: NextApiRequest,
+  res: NextApiResponse<PostGetResponse | {}>,
 ) {
   const postID = parseInt(req.query["post-id"] as string);
   if (req.method === "GET") {
     const post = DB.prepare(
-        `SELECT created_at
-           FROM posts
-           WHERE id = ?`,
+      `SELECT created_at
+         FROM posts
+         WHERE id = ?`,
     ).get(postID);
 
     const tags = DB.prepare(
-        `SELECT string
+      `SELECT string
          FROM tags
                   JOIN post_tags on tags.id = post_tags.tag_id
          WHERE post_id = ?
@@ -34,7 +34,7 @@ export default async function handler(
 
     // Delete post only if it is not already deleted.
     DB.prepare(
-        `UPDATE posts_all
+      `UPDATE posts_all
          SET deleted_at = CURRENT_TIMESTAMP
          WHERE deleted_at IS NULL
            AND id = ?`,
